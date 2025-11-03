@@ -1,0 +1,45 @@
+# ===============================
+# 🌐 FRONTEND (React)
+# ===============================
+frontend/node_modules/
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# ===============================
+# ⚙️ BACKEND (Node.js)
+# ===============================
+backend/node_modules/
+backend/dist/
+backend/uploads/
+backend/.env
+backend/.env.local
+backend/package-lock.json
+
+# ===============================
+# 🧪 TESTING / COVERAGE
+# ===============================
+coverage/
+*.spec.js
+*.test.js
+
+# ===============================
+# 🧱 SYSTEM / EDITOR / MISC
+# ===============================
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===============================
+# 🧩 MONOREPO SUPPORT
+# ===============================
+.pnp/
+.pnp.js
