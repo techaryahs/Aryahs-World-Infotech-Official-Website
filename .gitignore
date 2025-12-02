@@ -1,0 +1,30 @@
+# Backend dependencies
+backend/node_modules/
+
+# Frontend dependencies
+frontend/node_modules/
+
+# Environment files
+.env
+backend/.env
+frontend/.env
+
+# Sensitive tokens
+tokens.json
+backend/tokens.json
+frontend/tokens.json
+
+# Upload folders
+backend/uploads/
+frontend/uploads/
+
+# Logs
+*.log
+
+# Build folders
+frontend/build/
+frontend/dist/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -7,24 +7,31 @@ export default function ReviewsSection() {
   const [reviews, setReviews] = useState([]);
 
   // Fetch real reviews from backend
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/contact");
-        const data = await response.json();
+useEffect(() => {
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/contact/reviews");
+      const data = await response.json();
 
-        if (data.success) {
-          // Only include messages that have text content
-          const validReviews = data.data.filter((r) => r.message && r.fullName);
-          setReviews(validReviews);
-        }
-      } catch (error) {
-        console.error("❌ Error fetching reviews:", error);
+      // ⭐ FIXED — Correct key is data.data
+      if (data.success && Array.isArray(data.data)) {
+        const validReviews = data.data.map((r) => ({
+          message: r.message || r.review || "",
+          fullName: r.fullName || r.name || "Anonymous",
+          email: r.email || "Valued Client",
+          rating: Number(r.rating) || 0,
+        }));
+
+        setReviews(validReviews);
       }
-    };
+    } catch (error) {
+      console.error("❌ Error fetching reviews:", error);
+    }
+  };
 
-    fetchReviews();
-  }, []);
+  fetchReviews();
+}, []);
+
 
   return (
     <section className="relative py-24 bg-[#020617] text-white overflow-hidden">
@@ -77,7 +84,18 @@ export default function ReviewsSection() {
             {[...reviews, ...reviews].map((review, i) => (
               <motion.div
                 key={i}
-                whileHover={{ scale: 1.05 }}
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{
+                  duration: 0.8,
+                  delay: i * 0.1,
+                  type: "spring",
+                  stiffness: 70,
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0px 0px 25px rgba(56,189,248,0.5)",
+                }}
                 className="min-w-[300px] sm:min-w-[340px] md:min-w-[380px]
                            bg-white/10 backdrop-blur-2xl border border-white/10
                            hover:border-sky-400/40 rounded-3xl p-6 md:p-8
@@ -85,19 +103,62 @@ export default function ReviewsSection() {
                            hover:shadow-[0_0_35px_rgba(56,189,248,0.2)]
                            transition-all duration-700"
               >
-                <Quote className="text-sky-400 w-7 h-7 mb-3" />
-                <p className="text-gray-300 text-sm leading-relaxed mb-6 italic">
+                {/* 🌀 Animated Quote Icon */}
+                <motion.div
+                  animate={{ rotate: [0, -10, 10, 0] }}
+                  transition={{ duration: 8, repeat: Infinity }}
+                >
+                  <Quote className="text-sky-400 w-7 h-7 mb-3" />
+                </motion.div>
+
+                {/* ✨ Review Message */}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 1 }}
+                  className="text-gray-300 text-sm leading-relaxed mb-6 italic"
+                >
                   “{review.message}”
-                </p>
-                <div>
+                </motion.p>
+
+                {/* 👤 Reviewer Info */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.8 }}
+                >
                   <div className="font-bold text-white text-lg">{review.fullName}</div>
                   <div className="text-sky-400 text-sm mb-1">
                     {review.email || "Valued Client"}
                   </div>
-                  <div className="flex">
-                    <span className="text-amber-300 text-lg">★★★★★</span>
+
+                  {/* ⭐ Animated Stars */}
+                  <div className="flex mt-1 space-x-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <motion.span
+                        key={star}
+                        className={`text-amber-300 text-lg drop-shadow-sm ${
+                          star <= (review.rating || 0)
+                            ? "opacity-100"
+                            : "opacity-25"
+                        }`}
+                        animate={
+                          star <= (review.rating || 0)
+                            ? { scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }
+                            : {}
+                        }
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: star * 0.2,
+                          ease: "easeInOut",
+                        }}
+                      >
+                        ★
+                      </motion.span>
+                    ))}
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </motion.div>

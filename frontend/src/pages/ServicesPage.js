@@ -8,9 +8,9 @@ import {
   FiFeather,
   FiLayers,
   FiExternalLink,
-  FiPlay,
-  FiFilter,
+  FiX,
 } from "react-icons/fi";
+
 import CountUp from "react-countup";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -21,6 +21,15 @@ import Men1 from "../assets/robot1.gif";
 import Career_Couns from "../assets/career_couns.jpg";
 import Caro1 from "../assets/caro1.png";
 import Caro2 from "../assets/caro2.png";
+import BailgadiImg from "../assets/balgadi.png";
+import agri from "../assets/agri.jpg";
+import studio from "../assets/studio.jpg";
+import AI from "../assets/AI.jpg";
+import trans from "../assets/trans.jpg";
+
+
+
+
 
 export default function ServicesPage() {
   // ====== DATA ======
@@ -34,9 +43,9 @@ export default function ServicesPage() {
   ];
 
   const stats = [
-    { id: 1, value: 235, label: "Projects Completed" },
-    { id: 2, value: 150, label: "Active Clients" },
-    { id: 3, value: 10, label: "Years Experience" },
+    { id: 1, value: 43, label: "Projects Completed" },
+    { id: 2, value: 50, label: "Active Clients" },
+    { id: 3, value: 12, label: "Years Experience" },
     { id: 4, value: 25, label: "Technologies Used" },
   ];
 
@@ -44,20 +53,27 @@ export default function ServicesPage() {
     { id: 1, title: "CareerGenAI", subtitle: "AI-Powered Career Platform", img: Career_Couns, link: "https://aryahsworld.com/careergenai" },
     { id: 2, title: "6G Secure Link", subtitle: "Secure Data Channel for 6G", img: Caro1, link: "https://aryahsworld.com/6g-secure" },
     { id: 3, title: "GenAI Toolset", subtitle: "Enterprise GenAI Solutions", img: Caro2, link: "https://aryahsworld.com/genai" },
+    { id: 4, title: "Bailgada Trading App", subtitle: "Traditional Smart Trading Platform", img: BailgadiImg },
+
   ];
 
   // ====== PROJECT PAGE DATA ======
   const PROJECTS = [
     {
-      id: "career-genai",
-      title: "CareerGenAI",
-      category: "AI",
-      tagline: "AI-powered career guidance & resume insights",
-      tech: ["React", "TensorFlow", "Node.js"],
-      color: "bg-gradient-to-br from-purple-500 to-indigo-500",
-      description:
-        "Built an end-to-end AI platform to analyze resumes and recommend career paths, with a 75% increase in user match accuracy.",
-    },
+  id: "career-genai",
+  title: "CareerGenAI",
+  category: "AI",
+  tagline: "AI-powered career guidance & resume insights",
+  tech: ["React", "TensorFlow", "Node.js"],
+  color: "bg-gradient-to-br from-purple-500 to-indigo-500",
+  description:
+    "CareerGenAI is an AI-powered platform designed to guide students from Class 5 to Graduation in selecting the right career path based on their interests, strengths, skills, and academic background. It provides personalized career suggestions and career roadmaps using AI.",
+  
+  // ✅ FIXED WORKING EMBED LINK
+  demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
+
+  img: AI
+},
     {
       id: "6g-secure",
       title: "6G Secure Data Transfer",
@@ -67,6 +83,8 @@ export default function ServicesPage() {
       color: "bg-gradient-to-br from-yellow-400 to-orange-500",
       description:
         "A quantized LSTM model for low-resource IDS with federated learning, optimized for edge devices.",
+  demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
+      img: trans
     },
     {
       id: "genai-studio",
@@ -77,6 +95,8 @@ export default function ServicesPage() {
       color: "bg-gradient-to-br from-green-400 to-teal-500",
       description:
         "A collaborative GenAI platform for marketing teams with templates, versioning and analytics.",
+  demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
+      img: studio
     },
     {
       id: "agri-yield",
@@ -87,8 +107,23 @@ export default function ServicesPage() {
       color: "bg-gradient-to-br from-blue-400 to-indigo-600",
       description:
         "Yield prediction pipeline that combines imagery and phenotype data to estimate yields with high accuracy.",
+  demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
+      img: agri
+    },
+    {
+      id: "bailgada-trading",
+      title: "Bailgada Trading App",
+      category: "Product",
+      tagline: "Smart digital platform for traditional rural trading",
+      tech: ["Flutter", "Firebase", "GeoTracking"],
+      color: "bg-gradient-to-br from-red-500 to-pink-500",
+      description:
+        "A modern trading app inspired by traditional bailgada commerce, enabling rural buyers and sellers to connect, trade, and track goods with smart digital features.",
+  demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
+      img: BailgadiImg
     },
   ];
+
 
   const categories = ["All", "AI", "Product", "Research", "Data Science"];
   const [filter, setFilter] = useState("All");
@@ -96,13 +131,20 @@ export default function ServicesPage() {
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+  // NEW state: stores currently-open video embed URL (or null)
+  const [showVideo, setShowVideo] = useState(null);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const filtered = useMemo(() => {
     return PROJECTS.filter((p) => {
       if (filter !== "All" && p.category !== filter) return false;
       if (search && !p.title.toLowerCase().includes(search.toLowerCase())) return false;
       return true;
     });
-  }, [filter, search]);
+  }, [filter, search, PROJECTS]);
+
+
+
 
   // ====== PAGE START ======
   return (
@@ -164,56 +206,70 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* 💼 FEATURED PROJECTS (SLIDER) */}
+      {/* 💼 FEATURED PROJECTS (Like Screenshot) */}
       <section id="projects" className="max-w-7xl mx-auto px-6 py-20 relative z-10">
         <h2 className="text-4xl font-bold text-center mb-10 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-500">
           Featured Projects
         </h2>
-        <Swiper spaceBetween={25} slidesPerView={1} breakpoints={{ 768: { slidesPerView: 2 } }}>
+
+        <Swiper
+          spaceBetween={25}
+          grabCursor={true}
+          slidesPerView={1}
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}
+        >
+
           {projects.map((p) => (
             <SwiperSlide key={p.id}>
-              <motion.a href={p.link} target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.03 }} className="block bg-white rounded-2xl p-6 border border-slate-100 shadow-md hover:shadow-xl transition duration-300 h-full">
-                <div className="h-44 rounded-xl overflow-hidden bg-gradient-to-tr from-violet-50 to-blue-50 flex items-center justify-center">
-                  <img src={p.img} alt={p.title} className="object-contain h-full" />
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition border border-slate-100 cursor-pointer h-full"
+              >
+                <div className="h-48 overflow-hidden flex items-center justify-center bg-slate-50">
+                  <img src={p.img} alt={p.title} className="object-cover h-full w-full" />
                 </div>
-                <div className="mt-4">
+                <div className="p-5">
                   <h3 className="text-xl font-semibold text-slate-800">{p.title}</h3>
                   <p className="text-slate-500 mt-1">{p.subtitle}</p>
                 </div>
-              </motion.a>
+              </motion.div>
             </SwiperSlide>
           ))}
         </Swiper>
       </section>
 
+
       {/* 💬 CTA: Start a Project */}
-<section className="max-w-4xl mx-auto px-6 py-12 text-center">
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6 }}
-    viewport={{ once: true }}
-    className="bg-white/80 backdrop-blur-lg rounded-2xl border border-slate-200 shadow-lg p-10"
-  >
-    <h3 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-      Have a vision in mind?
-    </h3>
-    <p className="text-slate-600 mt-2 mb-6 max-w-md mx-auto">
-      Let’s collaborate and bring your innovative idea to life.  
-      We specialize in AI, 6G research, and scalable tech solutions.
-    </p>
+      <section className="max-w-4xl mx-auto px-6 py-12 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="bg-white/80 backdrop-blur-lg rounded-2xl border border-slate-200 shadow-lg p-10"
+        >
+          <h3 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+            Have a vision in mind?
+          </h3>
+          <p className="text-slate-600 mt-2 mb-6 max-w-md mx-auto">
+            Let’s collaborate and bring your innovative idea to life.
+            We specialize in AI, 6G research, and scalable tech solutions.
+          </p>
 
-    <div className="mt-6">
-      <button
-        onClick={() => setShowModal(true)}
-        className="w-full sm:w-auto px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform"
-      >
-        Start a Project
-      </button>
-    </div>
-  </motion.div>
-</section>
-
+          <div className="mt-6">
+            <button
+              onClick={() => setShowModal(true)}
+              className="w-full sm:w-auto px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform"
+            >
+              Start a Project
+            </button>
+          </div>
+        </motion.div>
+      </section>
 
       {/* 🌟 FULL PROJECT SECTION */}
       <section className="max-w-7xl mx-auto px-6 py-20">
@@ -227,19 +283,13 @@ export default function ServicesPage() {
             <button
               key={c}
               onClick={() => setFilter(c)}
-              className={`px-4 py-2 text-sm rounded-full font-medium transition ${
-                filter === c ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow" : "bg-white text-gray-700 border hover:bg-gray-50"
-              }`}
+              className={`px-4 py-2 text-sm rounded-full font-medium transition ${filter === c ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow" : "bg-white text-gray-700 border hover:bg-gray-50"
+                }`}
             >
               {c}
             </button>
           ))}
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search projects..."
-            className="px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-indigo-200 bg-white shadow-sm ml-3"
-          />
+         
         </div>
 
         {/* Project Grid */}
@@ -256,9 +306,14 @@ export default function ServicesPage() {
                 className="group bg-white/90 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-gray-100 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all"
                 onClick={() => setSelected(p)}
               >
-                <div className={`h-44 w-full ${p.color} flex items-center justify-center`}>
-                  <div className="text-white text-xl font-semibold drop-shadow">{p.title}</div>
+                <div className="h-44 w-full overflow-hidden flex items-center justify-center bg-slate-50">
+                  <img
+                    src={p.img}
+                    alt={p.title}
+                    className="object-cover h-full w-full"
+                  />
                 </div>
+
                 <div className="p-6">
                   <h3 className="text-lg font-semibold">{p.title}</h3>
                   <p className="text-sm text-gray-500 mt-1">{p.tagline}</p>
@@ -334,7 +389,11 @@ export default function ServicesPage() {
                   </div>
 
                   <div className="mt-6 flex gap-3 flex-wrap">
-                    <button className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex items-center gap-2">
+                    {/* Live Demo: opens a separate video modal (keeps project modal open until the user closes it) */}
+                    <button
+                      onClick={() => setShowVideo(selected.demoVideo || "https://www.youtube.com/embed/dQw4w9WgXcQ")}
+                      className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex items-center gap-2"
+                    >
                       <FiExternalLink /> Live Demo
                     </button>
                     <button onClick={() => setSelected(null)} className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100">
@@ -347,6 +406,55 @@ export default function ServicesPage() {
                     <div className="text-white font-semibold text-xl">{selected.title}</div>
                   </div>
                 </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Video Modal (separate) */}
+      <AnimatePresence>
+        {showVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[999] bg-black/70 backdrop-blur-sm flex items-center justify-center p-6"
+          >
+            <motion.div
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.95 }}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden"
+            >
+              <div className="relative">
+                <button
+                  onClick={() => setShowVideo(null)}
+                  className="absolute top-3 right-3 z-20 bg-white rounded-full p-2 shadow"
+                  aria-label="Close video"
+                >
+                  <FiX size={18} />
+                </button>
+
+                <div className="w-full h-[60vh] md:h-[70vh] bg-black">
+                  {/* iframe src expects an embed url (youtube embed, vimeo embed, or your hosted mp4 via player) */}
+                  <iframe
+                    src={showVideo}
+                    title="Project Demo"
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+
+              <div className="p-4 text-right">
+                <button
+                  onClick={() => setShowVideo(null)}
+                  className="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200"
+                >
+                  Close Video
+                </button>
               </div>
             </motion.div>
           </motion.div>

@@ -1,106 +1,86 @@
-import ProjectInquiry from "../models/StartProjectInquiry.js";
+import StartProjectInquiry from "../models/StartProjectInquiry.js";
 import { sendMail } from "../utils/sendMail.js";
 
 export const createProjectInquiry = async (req, res) => {
   try {
-    const { fullName, email, company, projectType, budgetRange, description } = req.body;
-
-    if (!fullName || !email || !projectType || !budgetRange) {
-      return res.status(400).json({ message: "Missing required fields." });
-    }
-
-    // Save inquiry in database
-    const newInquiry = new ProjectInquiry({
-      fullName,
-      email,
-      company,
-      projectType,
-      budgetRange,
-      description,
-    });
-
+    const newInquiry = new StartProjectInquiry(req.body);
     await newInquiry.save();
 
-    // ✅ Admin Email (to your company)
-    const adminHtml = `
-      <h2>🚀 New Project Inquiry Received</h2>
-      <p><b>Name:</b> ${fullName}</p>
-      <p><b>Email:</b> ${email}</p>
-      <p><b>Company:</b> ${company || "N/A"}</p>
-      <p><b>Project Type:</b> ${projectType}</p>
-      <p><b>Budget Range:</b> ${budgetRange}</p>
-      <p><b>Description:</b></p>
-      <p>${description || "No description provided."}</p>
-      <hr />
-      <p style="color:#555;">🕐 Received on: ${new Date().toLocaleString()}</p>
-    `;
+    const { fullName, email, phone,company, projectType, budgetRange, description } = req.body;
 
-    // ✅ Persuasive Client Email
-    const userHtml = `
-      <div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:auto;padding:20px;background:#f9f9f9;border-radius:12px;">
-        <h2 style="color:#4f46e5;">Hey ${fullName},</h2>
-        <p style="font-size:16px;color:#333;">
-          Thank you for reaching out to <b>Aryahs World Infotech</b> 🚀<br/>
-          We’re thrilled to know you’re interested in our <b>${projectType}</b> services!
-        </p>
-        
-        <p style="font-size:16px;color:#333;">
-          Our project specialists have received your request and are reviewing your requirements carefully.
-          You can expect a detailed response from us within <b>the next 24 hours</b>.
-        </p>
+    /* ------------------------------------
+       1️⃣  EMAIL TO COMPANY (ARYAHS TEAM)
+    -------------------------------------*/
+    await sendMail({
+      to: "tech.aryahs@gmail.com",
+      subject: "🚀 New Project Inquiry Received",
+      html: `
+      <div style="font-family: Arial, sans-serif; padding: 20px;">
+        <h2 style="color:#2E86C1;">📩 New Project Inquiry</h2>
+        <p>You have received a new project inquiry on Aryahs World Infotech.</p>
 
-        <div style="background:#fff;padding:15px;border-radius:8px;margin:20px 0;border:1px solid #e0e0e0;">
-          <p><b>Project Type:</b> ${projectType}</p>
-          <p><b>Budget Range:</b> ${budgetRange}</p>
-          <p><b>Description:</b> ${description || "No description provided."}</p>
+        <div style="background:#f4f6f7; padding:15px; border-radius:8px; margin-top:20px;">
+          <p><strong>Name:</strong> ${fullName}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Company:</strong> ${company}</p>
+          <p><strong>Project Type:</strong> ${projectType}</p>
+          <p><strong>Budget:</strong> ${budgetRange}</p>
+          <p><strong>Message:</strong> ${description || "No message provided"}</p>
         </div>
 
-        <p style="font-size:16px;color:#333;">
-          Our expert team can absolutely handle your project — from planning and development to deployment and long-term support.
-        </p>
-
-        <p style="font-size:16px;color:#333;">
-          We’re confident that Aryahs World Infotech can deliver a <b>beautiful, fast, and scalable</b> solution tailored to your goals.
-        </p>
-
-        <p style="font-size:16px;color:#4f46e5;font-weight:bold;margin-top:15px;">
-          Let’s bring your vision to life. We’ll get back to you very soon! 💼✨
-        </p>
-
-        <br/>
-        <p style="font-size:14px;color:#555;">
-          Warm regards,<br/>
-          <b>The Aryahs World Infotech Team</b><br/>
-          📧 tech.aryahs@gmail.com | 🌐 www.aryahsworldinfotech.com
-        </p>
-      </div>
-    `;
-
-    // Send to Admin
-    await sendMail({
-      to: process.env.ADMIN_EMAIL,
-      subject: "🚀 New Project Inquiry Received",
-      html: adminHtml,
+        <p style="margin-top:20px;">🔔 Please follow up with the client at your earliest convenience.</p>
+      </div>`
     });
 
-    // Send to Client
+    /* ------------------------------------
+       2️⃣  EMAIL TO CLIENT (THANK YOU)
+    -------------------------------------*/
     await sendMail({
       to: email,
-      subject: "✅ We’ve received your project inquiry — Aryahs World Infotech",
-      html: userHtml,
+      subject: "Thank You for Your Project Inquiry – Aryahs World Infotech",
+      html: `
+      <div style="font-family: Arial, sans-serif; padding: 25px; background:#fafafa;">
+        <div style="max-width:600px; margin:auto; background:white; padding:30px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+          
+          <h2 style="color:#2E86C1; text-align:center;">Thank You for Reaching Out! 👋</h2>
+          <p style="text-align:center; font-size:16px; color:#555;">
+            Hi <strong>${fullName}</strong>, thank you for submitting your project inquiry.
+          </p>
+
+          <p style="font-size:15px; color:#555;">
+            Our team at <strong>Aryahs World Infotech (OPC) Pvt Ltd</strong> has received your request and 
+            we will get back to you within <strong>12–24 hours</strong>.
+          </p>
+
+          <h3 style="color:#2E86C1; margin-top:25px;">📌 Your Inquiry Summary</h3>
+          <div style="background:#f4f6f7; padding:15px; border-radius:8px;">
+            <p><strong>Project Type:</strong> ${projectType}</p>
+            <p><strong>Budget:</strong> ${budgetRange}</p>
+            <p><strong>Message:</strong> ${description || "No message provided"}</p>
+          </div>
+
+          <p style="margin-top:20px; font-size:15px; color:#555;">
+            If you want to share more details, feel free to reply directly to this email.
+          </p>
+
+          <hr style="margin:25px 0;">
+
+          <p style="text-align:center; color:#777;">
+            © ${new Date().getFullYear()} Aryahs World Infotech (OPC) Pvt Ltd  
+            <br/>Building Modern Digital Experiences 🚀
+          </p>
+        </div>
+      </div>`
     });
 
-    // Respond to Frontend
-    return res.status(201).json({
+    res.status(201).json({
       success: true,
-      message: "Inquiry saved and email notifications sent to both admin and client.",
-      data: newInquiry,
+      message: "Project Inquiry Submitted and Emails Sent!"
     });
+
   } catch (error) {
-    console.error("❌ Error saving project inquiry:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Server error. Could not save inquiry.",
-    });
+    console.log("❌ Inquiry Error:", error);
+    res.status(500).json({ success: false, message: "Error", error });
   }
 };

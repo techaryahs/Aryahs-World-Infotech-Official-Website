@@ -1,7 +1,9 @@
+// src/pages/Projects.jsx
 import React, { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiExternalLink, FiPlay, FiFilter } from "react-icons/fi";
-import StartProjectModal from "../components/StartProjectModal"; // ✅ your existing popup file
+import { FiExternalLink, FiFilter } from "react-icons/fi";
+import { Helmet } from "react-helmet";
+import StartProjectModal from "../components/StartProjectModal";
 
 const PROJECTS = [
   {
@@ -12,17 +14,19 @@ const PROJECTS = [
     tech: ["React", "TensorFlow", "Node.js"],
     color: "bg-gradient-to-br from-purple-500 to-indigo-500",
     description:
-      "Built an end-to-end AI platform to analyze resumes and recommend career paths, with a 75% increase in user match accuracy.",
+      "An AI-driven career guidance platform that analyzes resumes and recommends optimized career paths with 75% improved accuracy.",
+    url: "https://www.aryahsworld.com/projects/career-genai",
   },
   {
     id: "6g-secure",
     title: "6G Secure Data Transfer",
     category: "Research",
-    tagline: "Lightweight AI intrusion detection for 6G IoT.",
+    tagline: "Lightweight AI intrusion detection for 6G IoT",
     tech: ["TensorFlow Lite", "Flower", "Keras"],
     color: "bg-gradient-to-br from-yellow-400 to-orange-500",
     description:
-      "A quantized LSTM model for low-resource IDS with federated learning, optimized for edge devices.",
+      "A quantized LSTM-based model that detects intrusions using federated learning optimized for 6G edge devices.",
+    url: "https://www.aryahsworld.com/projects/6g-secure",
   },
   {
     id: "genai-studio",
@@ -32,7 +36,8 @@ const PROJECTS = [
     tech: ["Next.js", "Redis", "Python"],
     color: "bg-gradient-to-br from-green-400 to-teal-500",
     description:
-      "A collaborative GenAI platform for marketing teams with templates, versioning and analytics.",
+      "A collaborative AI content generation suite with analytics, templates, and real-time team editing.",
+    url: "https://www.aryahsworld.com/projects/genai-studio",
   },
   {
     id: "agri-yield",
@@ -42,7 +47,8 @@ const PROJECTS = [
     tech: ["PyTorch", "OpenCV", "Pandas"],
     color: "bg-gradient-to-br from-blue-400 to-indigo-600",
     description:
-      "Yield prediction pipeline that combines imagery and phenotype data to estimate yields with high accuracy.",
+      "An AI-driven pipeline predicting crop yields using hybrid image and phenotype data for precision agriculture.",
+    url: "https://www.aryahsworld.com/projects/agri-yield",
   },
 ];
 
@@ -52,33 +58,87 @@ export default function Projects() {
   const [filter, setFilter] = useState("All");
   const [selected, setSelected] = useState(null);
   const [search, setSearch] = useState("");
-  const [showModal, setShowModal] = useState(false); // ✅ modal toggle state
+  const [showModal, setShowModal] = useState(false);
 
   const filtered = useMemo(() => {
     return PROJECTS.filter((p) => {
       if (filter !== "All" && p.category !== filter) return false;
-      if (search && !p.title.toLowerCase().includes(search.toLowerCase()))
-        return false;
+      if (search && !p.title.toLowerCase().includes(search.toLowerCase())) return false;
       return true;
     });
   }, [filter, search]);
 
   return (
-    <div className="relative min-h-screen text-gray-900 py-20 px-4 sm:px-8 lg:px-20 overflow-hidden">
-      {/* ===== Gradient Background ===== */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#f4f7ff] via-[#eef1ff] to-[#fafcff]" />
+    <main
+      className="relative min-h-screen text-gray-900 py-20 px-4 sm:px-8 lg:px-20 overflow-hidden"
+      role="main"
+    >
+      {/* ✅ SEO META TAGS */}
+      <Helmet>
+        <title>Projects | Aryahs World Infotech – AI, Research & Innovation</title>
+        <meta
+          name="description"
+          content="Explore AI projects, 6G research, and full-stack product innovations by Aryahs World Infotech — building the future with technology."
+        />
+        <meta
+          name="keywords"
+          content="Aryahs World projects, AI systems, 6G research, GenAI Studio, CareerGenAI, AgriYield Pro, AI company India"
+        />
+        <link rel="canonical" href="https://www.aryahsworld.com/projects" />
+        <meta name="robots" content="index, follow" />
 
-      {/* Subtle Animated Blobs */}
-      <motion.div
-        className="absolute w-[500px] h-[500px] top-[-180px] left-[-120px] bg-gradient-to-br from-indigo-300/40 to-purple-400/30 blur-3xl rounded-full"
-        animate={{ scale: [1, 1.05, 1] }}
-        transition={{ duration: 10, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute w-[600px] h-[600px] bottom-[-200px] right-[-180px] bg-gradient-to-tr from-pink-300/30 to-sky-300/30 blur-3xl rounded-full"
-        animate={{ y: [0, 20, 0] }}
-        transition={{ duration: 12, repeat: Infinity }}
-      />
+        {/* ✅ Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Projects | Aryahs World Infotech – AI, Research & Innovation" />
+        <meta
+          property="og:description"
+          content="Explore AI projects, 6G research, and product innovations from Aryahs World Infotech."
+        />
+        <meta property="og:url" content="https://www.aryahsworld.com/projects" />
+        <meta property="og:site_name" content="Aryahs World Infotech" />
+        <meta property="og:image" content="https://www.aryahsworld.com/assets/projects-cover.jpg" />
+
+        {/* ✅ Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Projects | Aryahs World Infotech" />
+        <meta
+          name="twitter:description"
+          content="Discover cutting-edge AI, research, and product innovations by Aryahs World Infotech."
+        />
+        <meta name="twitter:image" content="https://www.aryahsworld.com/assets/projects-cover.jpg" />
+
+        {/* ✅ Schema Markup (JSON-LD) */}
+        <script type="application/ld+json">{`
+          {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Projects | Aryahs World Infotech",
+            "description": "Showcasing AI and research projects from Aryahs World Infotech.",
+            "url": "https://www.aryahsworld.com/projects",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Aryahs World Infotech",
+              "url": "https://www.aryahsworld.com",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.aryahsworld.com/assets/logo.png"
+              }
+            },
+            "about": ${JSON.stringify(
+              PROJECTS.map((p) => ({
+                "@type": "CreativeWork",
+                name: p.title,
+                description: p.description,
+                url: p.url,
+                applicationCategory: p.category,
+              }))
+            )}
+          }
+        `}</script>
+      </Helmet>
+
+      {/* ===== Background ===== */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#f4f7ff] via-[#eef1ff] to-[#fafcff]" />
 
       {/* ===== HERO ===== */}
       <header className="max-w-6xl mx-auto flex flex-col lg:flex-row items-start gap-8 mt-10">
@@ -87,28 +147,17 @@ export default function Projects() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-4xl sm:text-5xl font-semibold tracking-tight bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-transparent bg-clip-text"
+            className="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-transparent bg-clip-text"
           >
             Our Projects
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.12 }}
-            className="mt-4 text-base sm:text-lg text-gray-600 max-w-xl leading-relaxed"
-          >
-            Carefully crafted projects — from high-impact AI systems to full-stack products
-            and research prototypes. Explore case studies, technology stacks, and impact.
-          </motion.p>
+          <p className="mt-4 text-base sm:text-lg text-gray-600 max-w-xl leading-relaxed">
+            Discover our journey through cutting-edge AI solutions, research prototypes, and scalable tech products.
+          </p>
 
-          {/* Filter and Search */}
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="mt-6 flex flex-wrap gap-3 items-center"
-          >
+          {/* Filter + Search */}
+          <div className="mt-6 flex flex-wrap gap-3 items-center" aria-label="Filter and search projects">
             <div className="flex items-center gap-2 p-1 rounded-lg bg-gray-50 border shadow-sm">
               <FiFilter className="text-gray-500" />
               <span className="text-sm text-gray-600">Filter</span>
@@ -124,6 +173,7 @@ export default function Projects() {
                       ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
                       : "bg-white text-gray-700 border hover:bg-gray-50"
                   }`}
+                  aria-pressed={filter === c}
                 >
                   {c}
                 </button>
@@ -136,123 +186,96 @@ export default function Projects() {
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search projects..."
                 className="px-4 py-2 border rounded-lg text-sm w-full sm:w-56 focus:outline-none focus:ring-2 focus:ring-indigo-200 bg-white shadow-sm"
+                aria-label="Search projects"
               />
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Quick Stats / CTA */}
-        <motion.aside
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.18 }}
-          className="w-full sm:w-[80%] lg:w-64 bg-white/90 backdrop-blur border rounded-2xl p-6 shadow-md hover:shadow-lg transition"
+        {/* Quick Stats */}
+        <aside
+          className="w-full sm:w-[80%] lg:w-64 bg-white/90 backdrop-blur border rounded-2xl p-6 shadow-md"
+          aria-label="Project statistics"
         >
           <div className="text-sm text-gray-500">Projects Completed</div>
           <div className="flex items-baseline gap-3 mt-2">
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="text-3xl font-bold text-indigo-700"
-            >
-              {PROJECTS.length}
-            </motion.div>
+            <div className="text-3xl font-bold text-indigo-700">{PROJECTS.length}</div>
             <div className="text-xs text-gray-500">+ ongoing</div>
           </div>
 
           <div className="mt-6">
             <button
-              onClick={() => setShowModal(true)} // ✅ trigger popup
-              className="w-full px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform"
+              onClick={() => setShowModal(true)}
+              className="w-full px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md hover:shadow-lg transition"
             >
               Start a Project
             </button>
           </div>
-        </motion.aside>
+        </aside>
       </header>
 
       {/* ===== PROJECT GRID ===== */}
-      <main className="max-w-6xl mx-auto mt-16">
-        <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          <AnimatePresence>
-            {filtered.map((p, i) => (
-              <motion.article
-                layout
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ delay: i * 0.04 }}
-                key={p.id}
-                className="group bg-white/90 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-gray-100 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all"
-                onClick={() => setSelected(p)}
-              >
-                <div className={`h-44 w-full ${p.color} flex items-center justify-center`}>
-                  <div className="text-white text-xl font-semibold drop-shadow">{p.title}</div>
-                </div>
-
-                <div className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-lg font-semibold">{p.title}</h3>
-                      <p className="text-sm text-gray-500 mt-1">{p.tagline}</p>
-                    </div>
-                    <div className="text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-700">
-                      {p.category}
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex items-center justify-between flex-wrap gap-2">
-                    <div className="flex gap-2 text-xs text-gray-500 flex-wrap">
-                      {p.tech.map((t) => (
-                        <span key={t} className="px-2 py-1 bg-gray-50 rounded border border-gray-100">
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <FiExternalLink className="text-gray-500" />
-                      <FiPlay className="text-gray-500" />
-                    </div>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* CTA strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.18 }}
-          className="mt-16 rounded-xl bg-gradient-to-r from-gray-50 via-white to-gray-50 p-8 flex flex-col md:flex-row items-center justify-between border shadow-sm gap-4"
-        >
-          <div className="text-center md:text-left">
-            <h4 className="text-lg font-semibold">Have a concept you want to build?</h4>
-            <p className="text-sm text-gray-600 mt-1">
-              We turn visionary ideas into production-grade realities.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <button className="px-5 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 w-full sm:w-auto">
-              Talk to an expert
-            </button>
-            <button
-              onClick={() => setShowModal(true)} // ✅ same modal trigger
-              className="px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow hover:shadow-lg w-full sm:w-auto"
+      <section
+        className="max-w-6xl mx-auto mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        aria-label="Project gallery"
+      >
+        <AnimatePresence>
+          {filtered.map((p, i) => (
+            <motion.article
+              layout
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ delay: i * 0.04 }}
+              key={p.id}
+              className="group bg-white/90 backdrop-blur-lg rounded-2xl shadow-lg overflow-hidden border border-gray-100 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all"
+              onClick={() => setSelected(p)}
+              itemScope
+              itemType="https://schema.org/CreativeWork"
             >
-              Start a Project
-            </button>
-          </div>
-        </motion.div>
-      </main>
+              <meta itemProp="name" content={p.title} />
+              <meta itemProp="description" content={p.description} />
+              <div className={`h-44 w-full ${p.color} flex items-center justify-center`}>
+                <div className="text-white text-xl font-semibold drop-shadow">{p.title}</div>
+              </div>
+              <div className="p-6">
+                <h2 className="text-lg font-semibold" itemProp="headline">
+                  {p.title}
+                </h2>
+                <p className="text-sm text-gray-500 mt-1">{p.tagline}</p>
+                <div className="mt-4 flex flex-wrap gap-2 text-xs text-gray-500">
+                  {p.tech.map((t) => (
+                    <span key={t} className="px-2 py-1 bg-gray-50 rounded border border-gray-100">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </AnimatePresence>
+      </section>
 
-      {/* ===== PROJECT DETAIL MODAL ===== */}
+      {/* ===== CTA Section ===== */}
+      <section className="mt-16 max-w-5xl mx-auto text-center border rounded-xl bg-gradient-to-r from-gray-50 via-white to-gray-50 p-10 shadow-sm">
+        <h2 className="text-xl font-semibold">Have a concept you want to build?</h2>
+        <p className="text-sm text-gray-600 mt-2">
+          Turn your visionary ideas into production-grade AI systems with Aryahs World Infotech.
+        </p>
+        <div className="mt-6 flex flex-col sm:flex-row justify-center gap-4">
+          <button className="px-5 py-2 rounded-lg border border-gray-300 hover:bg-gray-100">
+            Talk to an expert
+          </button>
+          <button
+            onClick={() => setShowModal(true)}
+            className="px-5 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow hover:shadow-lg"
+          >
+            Start a Project
+          </button>
+        </div>
+      </section>
+
+      {/* ===== Project Detail Modal ===== */}
       <AnimatePresence>
         {selected && (
           <motion.div
@@ -260,6 +283,8 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/30 backdrop-blur-sm"
+            role="dialog"
+            aria-modal="true"
           >
             <motion.div
               initial={{ scale: 0.95, y: 12, opacity: 0 }}
@@ -285,9 +310,14 @@ export default function Projects() {
                   </div>
 
                   <div className="mt-6 flex gap-3 flex-wrap">
-                    <button className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex items-center gap-2">
+                    <a
+                      href={selected.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex items-center gap-2"
+                    >
                       <FiExternalLink /> Live Demo
-                    </button>
+                    </a>
                     <button
                       onClick={() => setSelected(null)}
                       className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100"
@@ -298,7 +328,9 @@ export default function Projects() {
                 </div>
 
                 <div className="relative bg-gray-50 p-6 flex items-center justify-center">
-                  <div className={`w-full h-64 rounded-xl ${selected.color} flex items-center justify-center`}>
+                  <div
+                    className={`w-full h-64 rounded-xl ${selected.color} flex items-center justify-center`}
+                  >
                     <div className="text-white font-semibold text-xl">{selected.title}</div>
                   </div>
                 </div>
@@ -308,8 +340,8 @@ export default function Projects() {
         )}
       </AnimatePresence>
 
-      {/* ===== START PROJECT MODAL (Imported Component) ===== */}
+      {/* ===== Start Project Modal ===== */}
       <StartProjectModal isOpen={showModal} onClose={() => setShowModal(false)} />
-    </div>
+    </main>
   );
 }

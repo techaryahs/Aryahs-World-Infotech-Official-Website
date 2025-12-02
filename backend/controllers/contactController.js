@@ -3,13 +3,16 @@ import { sendMail } from "../utils/sendMail.js";
 
 export const createContactMessage = async (req, res) => {
   try {
-    console.log("📩 Incoming review message:", req.body);
+    console.log("📩 Incoming contact/review message:", req.body);
 
-    const { fullName, name, email, phone, message } = req.body;
+    // Accept both message (contact) OR review (feedback)
+    const { fullName, name, email, phone, message, review, rating } = req.body;
+
     const userName = fullName || name;
+    const finalMessage = message || review; // ⭐ FIXED: Support both keys
 
-    if (!userName || !email || !message) {
-      return res.status(400).json({ message: "Missing required fields." });
+    if (!userName || !email || !finalMessage) {
+      return res.status(400).json({ success: false, message: "Missing required fields." });
     }
 
     // Save to MongoDB
@@ -17,42 +20,56 @@ export const createContactMessage = async (req, res) => {
       fullName: userName,
       email,
       phone,
-      message,
+      message: finalMessage,  // ⭐ FIXED
+      rating: rating || null,
     });
 
     await newMessage.save();
-    console.log("✅ Saved review message:", newMessage);
+    console.log("✅ Saved message:", newMessage);
 
-    // 📨 Email to Admin
+    // ===========================
+    // EMAIL TO ADMIN
+    // ===========================
     const adminHtml = `
-      <h2>🌟 New Review / Feedback Received</h2>
+      <h2>🌟 New Contact / Review Received</h2>
       <p><b>Name:</b> ${userName}</p>
       <p><b>Email:</b> ${email}</p>
       <p><b>Phone:</b> ${phone || "N/A"}</p>
-      <p><b>Feedback Message:</b></p>
-      <blockquote style="border-left:4px solid #4f46e5;padding-left:10px;color:#333;">${message}</blockquote>
+      ${
+        rating
+          ? `<p><b>Rating:</b> ⭐ ${rating}/5</p>`
+          : ""
+      }
+      <p><b>Message:</b></p>
+      <blockquote style="border-left:4px solid #4f46e5;padding-left:10px;color:#333;">${finalMessage}</blockquote>
       <hr/>
       <p style="color:#555;">🕐 Received on: ${new Date().toLocaleString()}</p>
     `;
 
-    // 💌 Thank-you Email to Reviewer
+    // ===========================
+    // THANK YOU EMAIL TO USER
+    // ===========================
     const userHtml = `
       <div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:auto;padding:24px;background:#f9f9f9;border-radius:12px;">
         <h2 style="color:#4f46e5;">Hey ${userName},</h2>
 
         <p style="font-size:16px;color:#333;">
-          We're absolutely <b>thrilled</b> to receive your feedback! 💜  
-          Thank you for taking the time to share your thoughts with us.
+          Thank you so much for reaching out to us! 💜
         </p>
 
+        ${
+          rating
+            ? `<p style="font-size:16px;color:#333;">We appreciate your <b>${rating}-star</b> feedback!</p>`
+            : ""
+        }
+
         <div style="background:#fff;padding:16px;border-radius:8px;margin:20px 0;border:1px solid #e0e0e0;">
-          <p style="margin:0;font-size:15px;"><b>Your Review:</b></p>
-          <p style="font-size:15px;color:#444;margin-top:6px;">"${message}"</p>
+          <p style="margin:0;font-size:15px;"><b>Your Message:</b></p>
+          <p style="font-size:15px;color:#444;margin-top:6px;">"${finalMessage}"</p>
         </div>
 
         <p style="font-size:16px;color:#333;">
-          We’re glad to hear from you — every review helps us improve and continue delivering better digital experiences.
-          Our team truly appreciates your support. 🌟
+          Our team will get back to you shortly.
         </p>
 
         <p style="font-size:14px;color:#555;margin-top:20px;">
@@ -64,7 +81,7 @@ export const createContactMessage = async (req, res) => {
 
         <hr style="margin:20px 0;border:none;border-top:1px solid #ddd;">
         <p style="font-size:13px;color:#999;">
-          This email was sent automatically to confirm we received your feedback.
+          This email was sent automatically to confirm we received your message.
         </p>
       </div>
     `;
@@ -72,26 +89,27 @@ export const createContactMessage = async (req, res) => {
     // Send both emails
     await sendMail({
       to: process.env.ADMIN_EMAIL,
-      subject: "🌟 New Review Submitted — Aryahs World Infotech",
+      subject: "🌟 New Contact / Review Received — Aryahs World Infotech",
       html: adminHtml,
     });
 
     await sendMail({
       to: email,
-      subject: "💜 Thank You for Your Feedback — Aryahs World Infotech",
+      subject: "💜 Thank You — Aryahs World Infotech",
       html: userHtml,
     });
 
     return res.status(201).json({
       success: true,
-      message: "Review submitted successfully! Thank-you email sent.",
+      message: "Message submitted successfully! Thank-you email sent.",
       data: newMessage,
     });
+
   } catch (error) {
-    console.error("❌ Error handling review message:", error);
+    console.error("❌ Error handling message:", error);
     return res.status(500).json({
       success: false,
-      message: "Server error. Could not process review message.",
+      message: "Server error. Could not process message.",
     });
   }
 };

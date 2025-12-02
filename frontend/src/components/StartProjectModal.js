@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiX, FiSend } from "react-icons/fi";
 
@@ -11,73 +11,72 @@ const StartProjectModal = ({ isOpen, onClose }) => {
   ];
 
   const [currentSlogan, setCurrentSlogan] = useState(0);
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
+    phone: "",
     company: "",
     projectType: "Website Development",
     budgetRange: "Under 1000",
     description: "",
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
 
-  // Rotate slogans
+  // Change slogans
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const slogansList = useMemo(() => slogans, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlogan((prev) => (prev + 1) % slogans.length);
+      setCurrentSlogan((prev) => (prev + 1) % slogansList.length);
     }, 2500);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [slogansList.length]);
 
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
-  // Handle form submit (using fetch)
+
+  // Input change handler
+  const handleChange = (e) =>
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setStatusMessage("");
 
     try {
-      console.log("Submitting to:", "http://localhost:5000/api/inquiry");
-
       const response = await fetch("http://localhost:5000/api/inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      // Try to parse JSON safely
-      let data;
-      try {
-        data = await response.json();
-      } catch {
-        throw new Error("Invalid JSON response — likely HTML fallback");
-      }
+      const result = await response.json();
 
-      if (response.ok && data.success) {
+      if (response.ok && result.success) {
         setStatusMessage("✅ Inquiry submitted successfully!");
         setFormData({
           fullName: "",
           email: "",
+          phone: "",
           company: "",
           projectType: "Website Development",
           budgetRange: "Under 1000",
           description: "",
         });
       } else {
-        setStatusMessage(`❌ ${data.message || "Something went wrong."}`);
+        setStatusMessage(`❌ ${result.message || "Something went wrong."}`);
       }
-    } catch (error) {
-      console.error("Fetch error:", error.message);
+    } catch {
       setStatusMessage("❌ Failed to connect to the server.");
-    } finally {
-      setIsSubmitting(false);
     }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -87,42 +86,44 @@ const StartProjectModal = ({ isOpen, onClose }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-indigo-900/80 via-purple-900/80 to-black/90 backdrop-blur-md p-4"
+          className="fixed inset-0 overflow-y-auto z-[9999] 
+                     bg-black/40 backdrop-blur-md 
+                     flex justify-center items-start pt-28 px-4 pb-10"
         >
-          {/* Modal */}
+          {/* MODAL CARD */}
           <motion.div
             initial={{ scale: 0.9, opacity: 0, y: 40 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 40 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="relative w-full max-w-5xl bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200 overflow-hidden p-10 md:p-12"
+            transition={{ duration: 0.4 }}
+            className="relative w-full max-w-4xl bg-white rounded-3xl 
+                       shadow-2xl border border-gray-200 p-8 md:p-12"
           >
-            {/* Background Accent */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.25 }}
-              transition={{ delay: 0.5 }}
-              className="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full blur-3xl"
-            ></motion.div>
+            {/* Gradient Accent */}
+            <div
+              className="absolute -top-24 -right-24 w-80 h-80 rounded-full 
+                         bg-gradient-to-r from-purple-500 to-indigo-500 
+                         blur-3xl opacity-20 pointer-events-none"
+            />
 
-            {/* Close Button */}
+            {/* CLOSE BUTTON */}
             <button
               onClick={onClose}
-              className="absolute top-5 right-5 bg-white/90 hover:bg-white text-gray-700 hover:text-indigo-600 shadow-lg p-2 rounded-full transition-all z-10"
+              className="absolute -top-4 -right-4 bg-white shadow-lg 
+                         rounded-full p-2 hover:bg-gray-100 transition"
             >
-              <FiX size={22} />
+              <FiX size={24} className="text-gray-700" />
             </button>
 
-            {/* Header Section */}
+            {/* HEADER */}
             <div className="text-center mb-10">
-              <motion.h2
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"
+              <h2
+                className="text-3xl md:text-4xl font-extrabold 
+                           bg-gradient-to-r from-indigo-600 to-purple-600 
+                           text-transparent bg-clip-text"
               >
                 Start Your Project
-              </motion.h2>
+              </h2>
 
               <div className="relative h-8 mt-4">
                 <AnimatePresence mode="wait">
@@ -132,7 +133,7 @@ const StartProjectModal = ({ isOpen, onClose }) => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.6 }}
-                    className="absolute w-full text-center text-gray-700 font-medium"
+                    className="absolute w-full text-center text-gray-600 font-medium"
                   >
                     {slogans[currentSlogan]}
                   </motion.p>
@@ -140,110 +141,154 @@ const StartProjectModal = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* FORM */}
+            <form
+              onSubmit={handleSubmit}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
+              {/* Full Name */}
               <div>
-                <label className="text-sm font-medium text-gray-700">Full Name</label>
+                <label className="font-medium text-gray-700 text-sm">
+                  Full Name
+                </label>
                 <input
                   name="fullName"
-                  type="text"
                   value={formData.fullName}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
                   placeholder="Your name"
+                  className="w-full mt-1 p-3 rounded-lg border border-gray-400 
+                             bg-white focus:ring-2 focus:ring-indigo-500 outline-none"
                   required
                 />
               </div>
 
+              {/* Email */}
               <div>
-                <label className="text-sm font-medium text-gray-700">Email</label>
+                <label className="font-medium text-gray-700 text-sm">
+                  Email
+                </label>
                 <input
                   name="email"
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
                   placeholder="you@example.com"
+                  className="w-full mt-1 p-3 rounded-lg border border-gray-400 
+                             bg-white focus:ring-2 focus:ring-indigo-500 outline-none"
                   required
                 />
               </div>
 
+              {/* Phone */}
               <div>
-                <label className="text-sm font-medium text-gray-700">Company / Organization</label>
+                <label className="font-medium text-gray-700 text-sm">
+                  Phone Number
+                </label>
                 <input
-                  name="company"
-                  type="text"
-                  value={formData.company}
+                  name="phone"
+                  value={formData.phone}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-                  placeholder="Company name"
+                  placeholder="Your phone number"
+                  className="w-full mt-1 p-3 rounded-lg border border-gray-400 
+                             bg-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                  required
                 />
               </div>
 
+              {/* Company */}
               <div>
-                <label className="text-sm font-medium text-gray-700">Project Type</label>
+                <label className="font-medium text-gray-700 text-sm">
+                  Company / Organization
+                </label>
+                <input
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  placeholder="Company name"
+                  className="w-full mt-1 p-3 rounded-lg border border-gray-400 
+                             bg-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                />
+              </div>
+
+              {/* Project Type */}
+              <div>
+                <label className="font-medium text-gray-700 text-sm">
+                  Project Type
+                </label>
                 <select
                   name="projectType"
                   value={formData.projectType}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                  className="w-full mt-1 p-3 rounded-lg border border-gray-400 
+                             bg-white focus:ring-2 focus:ring-indigo-500 outline-none"
                 >
                   <option>Website Development</option>
                   <option>AI / ML Project</option>
                   <option>Mobile App</option>
-                  <option>Research / 6G</option>
+                  <option>Cybersecurity</option>
+                  <option>Data Analytics</option>
+                  <option>UI/UX Designer</option>
                   <option>Other</option>
                 </select>
               </div>
 
+              {/* Budget */}
               <div>
-                <label className="text-sm font-medium text-gray-700">Budget Range</label>
+                <label className="font-medium text-gray-700 text-sm">
+                  Budget Range
+                </label>
                 <select
                   name="budgetRange"
                   value={formData.budgetRange}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+                  className="w-full mt-1 p-3 rounded-lg border border-gray-400 
+                             bg-white focus:ring-2 focus:ring-indigo-500 outline-none"
                 >
-                  <option>Under 1000</option>
-                  <option>1000 - 5000</option>
-                  <option>5000 - 10000</option>
-                  <option>10000+</option>
+                  <option value="0-25000">Below ₹25,000</option>
+                  <option value="25000-50000">₹25,000 – ₹50,000</option>
+                  <option value="50000-100000">₹50,000 – ₹1,00,000</option>
+                  <option value="100000-300000">₹1,00,000 – ₹3,00,000</option>
+                  <option value="300000-500000">₹3,00,000 – ₹5,00,000</option>
+                  <option value="500000+">₹5,00,000+</option>
+
                 </select>
               </div>
 
-              <div>
-                <label className="text-sm font-medium text-gray-700">Project Description</label>
+              {/* Description */}
+              <div className="md:col-span-2">
+                <label className="font-medium text-gray-700 text-sm">
+                  Project Description
+                </label>
                 <textarea
                   name="description"
                   rows="3"
                   value={formData.description}
                   onChange={handleChange}
-                  className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none resize-none"
                   placeholder="Briefly describe your idea..."
-                ></textarea>
+                  className="w-full mt-1 p-3 rounded-lg border border-gray-400 
+                             bg-white focus:ring-2 focus:ring-indigo-500 outline-none resize-none"
+                />
               </div>
 
               {/* Submit Button */}
-              <div className="md:col-span-2">
+              <div className="md:col-span-2 mt-2">
                 <motion.button
-                  whileHover={{
-                    scale: 1.05,
-                    boxShadow: "0px 0px 15px rgba(99,102,241,0.6)",
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  type="submit"
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
                   disabled={isSubmitting}
-                  className={`w-full flex items-center justify-center gap-2 px-6 py-3 text-white font-semibold rounded-lg shadow-lg transition-all duration-300 ${
-                    isSubmitting
+                  className={`w-full flex items-center justify-center gap-2 
+                              py-3 text-white font-semibold rounded-xl 
+                              shadow-lg transition-all ${isSubmitting
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-gradient-to-r from-indigo-600 to-purple-600 hover:shadow-xl"
-                  }`}
+                    }`}
                 >
-                  {isSubmitting ? "Submitting..." : <> <FiSend /> Submit Inquiry </>}
+                  <FiSend />
+                  {isSubmitting ? "Submitting..." : "Submit Inquiry"}
                 </motion.button>
 
                 {statusMessage && (
-                  <p className="text-center mt-4 font-medium text-gray-700">
+                  <p className="text-center mt-3 text-gray-700 font-medium">
                     {statusMessage}
                   </p>
                 )}

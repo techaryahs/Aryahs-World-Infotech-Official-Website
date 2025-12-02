@@ -1,10 +1,40 @@
 import React from "react";
 import { motion } from "framer-motion";
-import AwardImage from "../assets/award.jpg"; // Replace with your image name
+import { Helmet } from "react-helmet"; // ✅ Added for SEO Meta Tags
+import AwardImage from "../assets/award.jpg"; // Replace with your image
 
 function AwardsSection() {
   return (
-    <section className="relative py-28 bg-gradient-to-b from-[#f9fbff] via-[#eef3ff] to-[#e2e8ff] text-[#001b3e] overflow-hidden">
+    <section
+      id="awards"
+      aria-label="AryahsWorld Infotech Awards and Achievements Section"
+      className="relative py-28 bg-gradient-to-b from-[#f9fbff] via-[#eef3ff] to-[#e2e8ff] text-[#001b3e] overflow-hidden"
+    >
+      {/* === 🧠 SEO META TAGS === */}
+      <Helmet>
+        <title>
+          Awards & Achievements | AryahsWorld Infotech | AI & 6G Innovation
+        </title>
+        <meta
+          name="description"
+          content="AryahsWorld Infotech proudly received the ALFA Excellence Award 2023 for outstanding innovation in Artificial Intelligence and Digital Transformation."
+        />
+        <meta
+          name="keywords"
+          content="AryahsWorld Infotech awards, AI excellence award, 6G innovation recognition, artificial intelligence company India"
+        />
+        <link rel="canonical" href="https://aryahsworld.com/awards" />
+
+        {/* ✅ Social Media (Open Graph) Tags */}
+        <meta property="og:title" content="AryahsWorld Infotech Awards" />
+        <meta
+          property="og:description"
+          content="Recognizing AryahsWorld Infotech’s excellence in AI and 6G innovation with the ALFA Excellence Award 2023."
+        />
+        <meta property="og:image" content="/assets/award.jpg" />
+        <meta property="og:url" content="https://aryahsworld.com/awards" />
+      </Helmet>
+
       {/* === Background Glow === */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.15),transparent)] blur-[160px]" />
 
@@ -16,7 +46,7 @@ function AwardsSection() {
           transition={{ duration: 0.8 }}
           className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-700 via-indigo-600 to-yellow-400 text-transparent bg-clip-text"
         >
-          🏆 Our Achievements & Awards
+        Our Achievements & Awards
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -41,7 +71,7 @@ function AwardsSection() {
           <div className="absolute w-[420px] h-[420px] bg-gradient-to-tr from-yellow-300/30 via-blue-300/20 to-transparent blur-[120px]" />
           <img
             src={AwardImage}
-            alt="Aryahs World Award"
+            alt="AryahsWorld Infotech receiving ALFA Excellence Award 2023 for AI Innovation"
             className="relative z-10 w-[90%] md:w-[400px] rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.2)] border border-white/50 hover:scale-[1.02] transition-transform duration-700"
           />
         </motion.div>
@@ -62,15 +92,15 @@ function AwardsSection() {
               “ALFA Excellence Award 2023”
             </span>{" "}
             on <strong>16th November 2023</strong> for its remarkable
-            contribution in the field of{" "}
+            contribution in{" "}
             <span className="text-indigo-600 font-semibold">
-              Artificial Intelligence & Digital Innovation
+              Artificial Intelligence, Digital Innovation & GenAI
             </span>.
           </p>
           <p className="text-gray-700 text-base leading-relaxed">
-            The award was presented by distinguished leaders, recognizing
-            Aryahs World Infotech’s commitment to driving technological
-            innovation and delivering intelligent solutions that create real-world impact.
+            This recognition highlights AryahsWorld Infotech’s dedication to
+            advancing next-generation technologies and delivering intelligent
+            solutions that transform industries and improve everyday life.
           </p>
 
           {/* Highlight Tag */}

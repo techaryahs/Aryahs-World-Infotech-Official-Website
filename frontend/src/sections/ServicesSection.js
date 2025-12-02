@@ -1,29 +1,57 @@
+"use client";
 import React from "react";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet"; // ✅ Add this for SEO metadata
 import menGif from "../assets/men1.gif";
 
 function ServicesSection() {
   const services = [
+     {
+      title: "Web & App Development",
+      desc: "Creating seamless, responsive web and mobile applications that fuse innovation, design, and scalability for modern businesses.",
+      icon: "💻",
+    },
     {
       title: "AI & Machine Learning",
-      desc: "We create intelligent systems that learn, evolve, and adapt—bringing automation and precision to every process.",
+      desc: "A machine learning and deep learning–based system that predicts crop yield using processed genotype and phenotype data.",
       icon: "🤖",
     },
     {
-      title: "6G & IoT Connectivity",
-      desc: "Designing next-gen connected ecosystems that communicate in real-time for smarter, efficient environments.",
+      title: "IoT Connectivity",
+      desc: "Designing next-gen 6G and IoT infrastructures for real-time communication, smart automation, and ultra-fast connectivity.",
       icon: "🌐",
     },
-    {
-      title: "Web & App Development",
-      desc: "Crafting digital experiences that combine design, innovation, and functionality for the modern world.",
-      icon: "💻",
-    },
+   
   ];
 
   return (
-    <section className="relative w-full py-24 md:py-28 overflow-hidden bg-gradient-to-b from-[#f5f9ff] via-[#eaf2ff] to-[#dbe8ff] text-[#001b3e]">
-      {/* ---------- Subtle Animated Background ---------- */}
+    <section
+      id="services"
+      aria-label="Our Services - Aryahs World Infotech"
+      className="relative w-full py-24 md:py-28 overflow-hidden bg-gradient-to-b from-[#f5f9ff] via-[#eaf2ff] to-[#dbe8ff] text-[#001b3e]"
+    >
+      {/* ✅ SEO Meta Information */}
+      <Helmet>
+        <title>Our Services | Aryahs World Infotech</title>
+        <meta
+          name="description"
+          content="Explore Aryahs World Infotech services in AI, Machine Learning, 6G, IoT, and Web Development. We empower businesses through automation, innovation, and intelligent technology."
+        />
+        <meta
+          name="keywords"
+          content="AI services, Machine Learning, 6G technology, IoT solutions, web development, app development, Aryahs World Infotech"
+        />
+        <meta property="og:title" content="Our Services - Aryahs World Infotech" />
+        <meta
+          property="og:description"
+          content="Transform your business with Aryahs World Infotech’s AI, 6G, IoT, and Web Development services. Innovation meets automation."
+        />
+        <meta property="og:image" content="/images/og-services.jpg" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://aryahs-world-infotech.com/services" />
+      </Helmet>
+
+      {/* ---------- Animated Background ---------- */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-[#fff7d6]/40 via-[#e8f0ff]/50 to-[#fefbd0]/40 blur-[120px]"
         animate={{
@@ -61,12 +89,13 @@ function ServicesSection() {
               transition={{ delay: 0.3, duration: 1 }}
               className="text-[#1a3262] max-w-xl leading-relaxed"
             >
-              We fuse innovation and intelligence — building solutions that
-              empower, automate, and connect the digital world.
+              At <strong>Aryahs World Infotech</strong>, we combine{" "}
+              <strong>AI, automation, and 6G innovation</strong> to design
+              digital products that transform businesses globally.
             </motion.p>
           </div>
 
-          {/* ---------- SERVICE CARDS ---------- */}
+   
           <div className="grid gap-6">
             {services.map((service, i) => (
               <motion.div
@@ -82,18 +111,21 @@ function ServicesSection() {
                     {service.title}
                   </h3>
                 </div>
+
                 <p className="text-[#2b3f73] mt-3">{service.desc}</p>
 
-                {/* Subtle Glow */}
+                {/* Hover Glow */}
                 <motion.div
                   className="absolute -inset-px bg-gradient-to-r from-[#ffd700] to-[#007bff] rounded-2xl opacity-0 group-hover:opacity-15 transition-all duration-500 blur-md"
                 ></motion.div>
               </motion.div>
             ))}
           </div>
+          
         </motion.div>
+        
 
-        {/* ---------- RIGHT SIDE (STATIC AMOEBA BACKGROUND + GIF) ---------- */}
+        {/* ---------- RIGHT SIDE ---------- */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 40 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -101,7 +133,7 @@ function ServicesSection() {
           viewport={{ once: true }}
           className="relative flex justify-center md:justify-end"
         >
-          {/* Large static amoeba shape */}
+          {/* Amoeba Shape */}
           <svg
             viewBox="0 0 600 600"
             xmlns="http://www.w3.org/2000/svg"
@@ -120,13 +152,13 @@ function ServicesSection() {
             </defs>
           </svg>
 
-          {/* Soft blurred aura glow */}
+          {/* Aura Glow */}
           <div className="absolute w-[900px] h-[900px] bg-gradient-to-tl from-[#ffd700]/25 via-[#3b82f6]/20 to-transparent rounded-full blur-[180px] -top-40 right-[-120px] -z-20" />
 
-          {/* Main GIF */}
+          {/* Animated GIF */}
           <motion.img
             src={menGif}
-            alt="Our Services Animation"
+            alt="AI and Technology Services by Aryahs World Infotech"
             className="relative w-[450px] md:w-[480px] object-contain drop-shadow-[0_0_25px_rgba(255,215,0,0.4)]"
             animate={{
               y: [0, -10, 0],

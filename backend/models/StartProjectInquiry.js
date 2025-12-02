@@ -1,3 +1,4 @@
+// models/StartProjectInquiry.js
 import mongoose from "mongoose";
 
 const projectInquirySchema = new mongoose.Schema(
@@ -7,24 +8,35 @@ const projectInquirySchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+
     email: {
       type: String,
       required: true,
       trim: true,
       lowercase: true,
     },
+
+    phone: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
     company: {
       type: String,
       trim: true,
     },
+
     projectType: {
       type: String,
       required: true,
     },
+
     budgetRange: {
       type: String,
       required: true,
     },
+
     description: {
       type: String,
       trim: true,
@@ -33,6 +45,7 @@ const projectInquirySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Model
 const ProjectInquiry = mongoose.model("ProjectInquiry", projectInquirySchema);
 
 export default ProjectInquiry;

@@ -1,3 +1,8 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /backend/
+Disallow: /api/
+
+Sitemap: https://aryahsworldinfotech.com/sitemap.xml

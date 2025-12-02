@@ -1,5 +1,7 @@
+// ✅ CoreCapabilities.js
 import React from "react";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet"; // 🧠 Added for SEO meta tags
 
 function CoreCapabilities() {
   const capabilities = [
@@ -14,7 +16,34 @@ function CoreCapabilities() {
   ];
 
   return (
-    <section className="relative py-24 md:py-28 overflow-hidden bg-gradient-to-b from-[#f5f9ff] via-[#eef3ff] to-[#dbe8ff]">
+    <section
+      id="core-capabilities"
+      aria-label="AryahsWorld Infotech Core Capabilities Section"
+      className="relative py-24 md:py-28 overflow-hidden bg-gradient-to-b from-[#f5f9ff] via-[#eef3ff] to-[#dbe8ff]"
+    >
+      {/* ✅ SEO META TAGS */}
+      <Helmet>
+        <title>Core Capabilities | AryahsWorld Infotech | AI, 6G & Digital Transformation</title>
+        <meta
+          name="description"
+          content="Explore AryahsWorld Infotech’s core capabilities — from AI/ML integration and web development to cloud, cybersecurity, and data analytics solutions."
+        />
+        <meta
+          name="keywords"
+          content="AryahsWorld Infotech, AI company, 6G solutions, cloud deployment, cybersecurity, data analytics, automation, web development, digital transformation"
+        />
+        <link rel="canonical" href="https://aryahsworld.com/capabilities" />
+
+        {/* ✅ Open Graph for social sharing */}
+        <meta property="og:title" content="Core Capabilities | AryahsWorld Infotech" />
+        <meta
+          property="og:description"
+          content="Discover the core strengths of AryahsWorld Infotech in AI, 6G, automation, and digital transformation."
+        />
+        <meta property="og:image" content="/assets/ai-capabilities.jpg" />
+        <meta property="og:url" content="https://aryahsworld.com/capabilities" />
+      </Helmet>
+
       {/* === Floating Background Glows === */}
       <motion.div
         className="absolute -top-32 -left-20 w-[450px] h-[450px] bg-gradient-to-br from-blue-300/30 to-indigo-300/20 rounded-full blur-[120px]"
@@ -35,15 +64,17 @@ function CoreCapabilities() {
           transition={{ duration: 1 }}
           className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-blue-700 via-indigo-600 to-yellow-400 text-transparent bg-clip-text"
         >
-          🚀 Core Capabilities
+          🚀 Our Core Capabilities 
         </motion.h2>
+
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 1 }}
           className="text-gray-600 mt-4 text-lg max-w-2xl mx-auto"
         >
-          Powering digital transformation through design, intelligence, and innovation.
+          Empowering global businesses with AI-driven design, automation, and 6G innovation —
+          the foundation of next-generation digital transformation.
         </motion.p>
       </div>
 
@@ -74,9 +105,11 @@ function CoreCapabilities() {
               }}
             >
               {/* Gradient Icon Container */}
-              <div className="relative w-16 h-16 flex items-center justify-center mb-3 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-yellow-400 text-3xl text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] group-hover:scale-110 transition-transform duration-300">
+              <div
+                className="relative w-16 h-16 flex items-center justify-center mb-3 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-yellow-400 text-3xl text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] group-hover:scale-110 transition-transform duration-300"
+                aria-label={cap.title} // ✅ Accessible label
+              >
                 <span>{cap.icon}</span>
-                {/* Inner glow ring */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/20 to-transparent opacity-50 blur-md" />
               </div>
 
@@ -95,11 +128,11 @@ function CoreCapabilities() {
         </motion.div>
       </div>
 
-      {/* === Edge Fades for Smooth Infinite Loop === */}
+      {/* === Edge Fades === */}
       <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#f5f9ff] via-[#f5f9ff]/80 to-transparent pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#f5f9ff] via-[#f5f9ff]/80 to-transparent pointer-events-none" />
 
-      {/* === Subtle Ambient Lighting === */}
+      {/* === Ambient Lighting === */}
       <motion.div
         className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.3),transparent)]"
         animate={{ opacity: [0.4, 0.6, 0.4] }}
