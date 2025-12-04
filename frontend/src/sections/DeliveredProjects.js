@@ -53,7 +53,7 @@ const projects = [
     img: SecureConnect,
   },
 
-   {
+  {
     year: "2025",
     title: "Crop Yield Prediction ",
     desc: "Crop phenotype traits for each sample.",
@@ -63,7 +63,7 @@ const projects = [
   },
 
 
-   {
+  {
     year: "2025",
     title: "Ethereum Fraud Detection ",
     desc: "Contains normal and fraudulent Ethereum transactions with labeled targets.",
@@ -115,7 +115,7 @@ export default function DeliveredProjects() {
     >
       {/* ✅ SEO META TAGS */}
       <Helmet>
-        <title>Delivered Projects | AryahsWorld Infotech | AI & 6G Innovations</title>
+        <title>Aryahs World Infotech (OPC) Pvt Ltd | AI & 6G Innovations</title>
         <meta
           name="description"
           content="Explore AryahsWorld Infotech’s delivered AI and 6G projects — from real estate analytics and career guidance to IoT security and government AI initiatives."
@@ -186,34 +186,38 @@ export default function DeliveredProjects() {
               {/* Connector Line */}
               <div
                 className={`w-[2px] h-[100px] ${i % 2 === 0
-                    ? "bg-gradient-to-t from-indigo-400 to-transparent"
-                    : "bg-gradient-to-b from-indigo-400 to-transparent"
+                  ? "bg-gradient-to-t from-indigo-400 to-transparent"
+                  : "bg-gradient-to-b from-indigo-400 to-transparent"
                   } opacity-50`}
               ></div>
 
               {/* Project Card */}
               <Tilt tiltMaxAngleX={8} tiltMaxAngleY={8} perspective={900}>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="relative w-[240px] sm:w-[260px] md:w-[280px] bg-white/10 backdrop-blur-2xl border border-white/10 hover:border-sky-400/30 rounded-3xl shadow-[0_0_30px_rgba(56,189,248,0.1)] overflow-hidden cursor-pointer group transition-all duration-700"
-                  onClick={() => setSelected(proj)}
-                  aria-label={`View details about ${proj.title}`}
-                >
-                  <div className="w-full h-32 overflow-hidden rounded-t-3xl">
-                    <img
-                      src={proj.img}
-                      alt={`${proj.title} project image`}
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
-                  </div>
-                  <div className="p-5 text-center">
-                    <p className="text-sky-400 text-xs font-semibold tracking-wider">{proj.year}</p>
-                    <h3 className="text-lg font-bold mt-2 text-white">{proj.title}</h3>
-                    <p className="text-gray-400 text-xs mt-2 leading-relaxed">{proj.desc}</p>
-                  </div>
-                </motion.div>
-              </Tilt>
+  <motion.div
+    whileHover={{ scale: 1.05 }}
+    className="relative w-[240px] sm:w-[260px] md:w-[280px] bg-white/10 backdrop-blur-2xl border border-white/10 hover:border-sky-400/30 rounded-3xl shadow-[0_0_30px_rgba(56,189,248,0.1)] overflow-hidden cursor-pointer group transition-all duration-700"
+    onClick={() => setSelected(proj)}
+    aria-label={`View details about ${proj.title}`}
+  >
+    <div className="w-full h-32 overflow-hidden rounded-t-3xl">
+      <img
+        src={proj.img}
+        alt={proj.title} 
+        loading="lazy"
+        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+      />
+    </div>
+
+    <div className="p-5 text-center">
+      <p className="text-sky-400 text-xs font-semibold tracking-wider">{proj.year}</p>
+      <h3 className="text-lg font-bold mt-2 text-white">{proj.title}</h3>
+      <p className="text-gray-400 text-xs mt-2 leading-relaxed">{proj.desc}</p>
+    </div>
+
+  </motion.div>
+</Tilt>
+
+
             </motion.div>
           ))}
         </motion.div>

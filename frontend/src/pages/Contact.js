@@ -19,7 +19,7 @@ export default function Contact() {
   const [, setReviews] = useState([]); // reviews removed to avoid ESLint warning
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/contact/reviews")
+    fetch(`${process.env.REACT_APP_API_URL}/api/contact/reviews`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) setReviews(data.data);
@@ -33,7 +33,7 @@ export default function Contact() {
     setMessage(null);
 
     try {
-      const response = await fetch("http://localhost:5000/api/contact", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

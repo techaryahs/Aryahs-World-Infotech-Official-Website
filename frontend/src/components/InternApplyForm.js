@@ -29,7 +29,7 @@ const InternApplyForm = ({ onClose }) => {
         resumeData.append("resume", resume);
         resumeData.append("fullName", name);
 
-        const uploadRes = await fetch("http://localhost:5000/uploads", {
+        const uploadRes = await fetch(`${process.env.REACT_APP_API_URL}/uploads`, {
           method: "POST",
           body: resumeData,
         });
@@ -56,7 +56,7 @@ const InternApplyForm = ({ onClose }) => {
       formData.append("role", role);
       formData.append("resume", resumePath);
 
-      const res = await fetch("http://localhost:5000/api/intern/apply", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/intern/apply`, {
         method: "POST",
         body: formData,
       });

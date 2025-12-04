@@ -27,9 +27,71 @@ import studio from "../assets/studio.jpg";
 import AI from "../assets/AI.jpg";
 import trans from "../assets/trans.jpg";
 
-
-
-
+/* -------------------------------------------------------
+   FIX: Move PROJECTS OUTSIDE the component (Top-level)
+-------------------------------------------------------- */
+const PROJECTS = [
+  {
+    id: "career-genai",
+    title: "CareerGenAI",
+    category: "AI",
+    tagline: "AI-powered career guidance & resume insights",
+    tech: ["React", "TensorFlow", "Node.js"],
+    color: "bg-gradient-to-br from-purple-500 to-indigo-500",
+    description:
+      "CareerGenAI is an AI-powered platform designed to guide students from Class 5 to Graduation...",
+    demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
+    img: AI,
+  },
+  {
+    id: "6g-secure",
+    title: "6G Secure Data Transfer",
+    category: "Research",
+    tagline: "Lightweight AI intrusion detection for 6G IoT.",
+    tech: ["TensorFlow Lite", "Flower", "Keras"],
+    color: "bg-gradient-to-br from-yellow-400 to-orange-500",
+    description:
+      "A quantized LSTM model for low-resource IDS with federated learning...",
+    demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
+    img: trans,
+  },
+  {
+    id: "genai-studio",
+    title: "GenAI Studio",
+    category: "Product",
+    tagline: "AI content generation suite for teams",
+    tech: ["Next.js", "Redis", "Python"],
+    color: "bg-gradient-to-br from-green-400 to-teal-500",
+    description:
+      "A collaborative GenAI platform for marketing teams with templates, versioning and analytics.",
+    demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
+    img: studio,
+  },
+  {
+    id: "agri-yield",
+    title: "AgriYield Pro",
+    category: "Data Science",
+    tagline: "Deep learning crop yield prediction",
+    tech: ["PyTorch", "OpenCV", "Pandas"],
+    color: "bg-gradient-to-br from-blue-400 to-indigo-600",
+    description:
+      "Yield prediction pipeline combining imagery and phenotype data.",
+    demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
+    img: agri,
+  },
+  {
+    id: "bailgada-trading",
+    title: "Bailgada Trading App",
+    category: "Product",
+    tagline: "Smart digital platform for rural trading",
+    tech: ["Flutter", "Firebase", "GeoTracking"],
+    color: "bg-gradient-to-br from-red-500 to-pink-500",
+    description:
+      "A modern trading app for rural buyers and sellers with smart tracking.",
+    demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
+    img: BailgadiImg,
+  },
+];
 
 export default function ServicesPage() {
   // ====== DATA ======
@@ -54,96 +116,24 @@ export default function ServicesPage() {
     { id: 2, title: "6G Secure Link", subtitle: "Secure Data Channel for 6G", img: Caro1, link: "https://aryahsworld.com/6g-secure" },
     { id: 3, title: "GenAI Toolset", subtitle: "Enterprise GenAI Solutions", img: Caro2, link: "https://aryahsworld.com/genai" },
     { id: 4, title: "Bailgada Trading App", subtitle: "Traditional Smart Trading Platform", img: BailgadiImg },
-
   ];
-
-  // ====== PROJECT PAGE DATA ======
-  const PROJECTS = [
-    {
-  id: "career-genai",
-  title: "CareerGenAI",
-  category: "AI",
-  tagline: "AI-powered career guidance & resume insights",
-  tech: ["React", "TensorFlow", "Node.js"],
-  color: "bg-gradient-to-br from-purple-500 to-indigo-500",
-  description:
-    "CareerGenAI is an AI-powered platform designed to guide students from Class 5 to Graduation in selecting the right career path based on their interests, strengths, skills, and academic background. It provides personalized career suggestions and career roadmaps using AI.",
-  
-  // ✅ FIXED WORKING EMBED LINK
-  demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
-
-  img: AI
-},
-    {
-      id: "6g-secure",
-      title: "6G Secure Data Transfer",
-      category: "Research",
-      tagline: "Lightweight AI intrusion detection for 6G IoT.",
-      tech: ["TensorFlow Lite", "Flower", "Keras"],
-      color: "bg-gradient-to-br from-yellow-400 to-orange-500",
-      description:
-        "A quantized LSTM model for low-resource IDS with federated learning, optimized for edge devices.",
-  demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
-      img: trans
-    },
-    {
-      id: "genai-studio",
-      title: "GenAI Studio",
-      category: "Product",
-      tagline: "AI content generation suite for teams",
-      tech: ["Next.js", "Redis", "Python"],
-      color: "bg-gradient-to-br from-green-400 to-teal-500",
-      description:
-        "A collaborative GenAI platform for marketing teams with templates, versioning and analytics.",
-  demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
-      img: studio
-    },
-    {
-      id: "agri-yield",
-      title: "AgriYield Pro",
-      category: "Data Science",
-      tagline: "Deep learning crop yield prediction",
-      tech: ["PyTorch", "OpenCV", "Pandas"],
-      color: "bg-gradient-to-br from-blue-400 to-indigo-600",
-      description:
-        "Yield prediction pipeline that combines imagery and phenotype data to estimate yields with high accuracy.",
-  demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
-      img: agri
-    },
-    {
-      id: "bailgada-trading",
-      title: "Bailgada Trading App",
-      category: "Product",
-      tagline: "Smart digital platform for traditional rural trading",
-      tech: ["Flutter", "Firebase", "GeoTracking"],
-      color: "bg-gradient-to-br from-red-500 to-pink-500",
-      description:
-        "A modern trading app inspired by traditional bailgada commerce, enabling rural buyers and sellers to connect, trade, and track goods with smart digital features.",
-  demoVideo: "https://www.youtube.com/embed/Crynb2zFYWE?si=-uvcn5x_Fi6TxK95",
-      img: BailgadiImg
-    },
-  ];
-
 
   const categories = ["All", "AI", "Product", "Research", "Data Science"];
   const [filter, setFilter] = useState("All");
   const [selected, setSelected] = useState(null);
-  const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
-
-  // NEW state: stores currently-open video embed URL (or null)
   const [showVideo, setShowVideo] = useState(null);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  /* -------------------------------------------------------
+     FIXED useMemo — only filter depends on state
+  -------------------------------------------------------- */
   const filtered = useMemo(() => {
-    return PROJECTS.filter((p) => {
-      if (filter !== "All" && p.category !== filter) return false;
-      if (search && !p.title.toLowerCase().includes(search.toLowerCase())) return false;
-      return true;
-    });
-  }, [filter, search, PROJECTS]);
+    return PROJECTS.filter((p) => filter === "All" || p.category === filter);
+  }, [filter]);
 
-
+  // -------------------------------------------------------
+  // PAGE START
+  // -------------------------------------------------------
 
 
   // ====== PAGE START ======
@@ -289,7 +279,7 @@ export default function ServicesPage() {
               {c}
             </button>
           ))}
-         
+
         </div>
 
         {/* Project Grid */}

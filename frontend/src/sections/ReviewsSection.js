@@ -10,7 +10,7 @@ export default function ReviewsSection() {
 useEffect(() => {
   const fetchReviews = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/contact/reviews");
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/contact/reviews`);
       const data = await response.json();
 
       // ⭐ FIXED — Correct key is data.data

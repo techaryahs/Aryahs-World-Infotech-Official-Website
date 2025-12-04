@@ -20,17 +20,19 @@ function Navbar() {
 
         {/* ---------- LOGO + TEXT ---------- */}
         <NavLink to="/" className="flex items-center gap-3">
-          <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center shadow-lg border border-blue-400/40 overflow-hidden">
+          <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white flex items-center justify-center shadow-lg border border-blue-400/40 overflow-hidden">
             <img
-              src={Logo}
-              alt="Aryahs Logo"
-              className="w-10 h-10 md:w-12 md:h-12 object-contain"
-            />
+  src={Logo}
+  alt="Aryahs Logo"
+  className="w-12 h-12 md:w-14 md:h-14 object-contain"
+/>
+
           </div>
 
+
           <span className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight">
-  Aryahs<span className="text-blue-400">World</span>
-</span>
+            Aryahs<span className="text-blue-400">World</span>
+          </span>
 
         </NavLink>
 
@@ -41,10 +43,9 @@ function Navbar() {
               <NavLink
                 to={link.path}
                 className={({ isActive }) =>
-                  `px-3 py-1 rounded-full transition-all duration-300 ${
-                    isActive
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-500 shadow-lg text-white"
-                      : "hover:text-blue-400"
+                  `px-3 py-1 rounded-full transition-all duration-300 ${isActive
+                    ? "bg-gradient-to-r from-blue-600 to-indigo-500 shadow-lg text-white"
+                    : "hover:text-blue-400"
                   }`
                 }
               >
@@ -69,19 +70,16 @@ function Navbar() {
           onClick={() => setOpen(!open)}
         >
           <span
-            className={`h-[2px] w-6 bg-white transition ${
-              open && "rotate-45 translate-y-2"
-            }`}
+            className={`h-[2px] w-6 bg-white transition ${open && "rotate-45 translate-y-2"
+              }`}
           />
           <span
-            className={`h-[2px] w-6 bg-white transition ${
-              open && "opacity-0"
-            }`}
+            className={`h-[2px] w-6 bg-white transition ${open && "opacity-0"
+              }`}
           />
           <span
-            className={`h-[2px] w-6 bg-white transition ${
-              open && "-rotate-45 -translate-y-2"
-            }`}
+            className={`h-[2px] w-6 bg-white transition ${open && "-rotate-45 -translate-y-2"
+              }`}
           />
         </div>
 
@@ -110,17 +108,16 @@ function Navbar() {
           >
 
             {/* Mobile Logo */}
-          
+
 
             {navLinks.map((link, i) => (
               <li key={i} onClick={() => setOpen(false)}>
                 <NavLink
                   to={link.path}
                   className={({ isActive }) =>
-                    `text-lg px-4 py-1 rounded-full ${
-                      isActive
-                        ? "bg-gradient-to-r from-blue-600 to-indigo-500 shadow-lg text-white"
-                        : "hover:text-blue-400"
+                    `text-lg px-4 py-1 rounded-full ${isActive
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-500 shadow-lg text-white"
+                      : "hover:text-blue-400"
                     }`
                   }
                 >

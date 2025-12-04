@@ -18,7 +18,7 @@ const StartProjectModal = ({ isOpen, onClose }) => {
     phone: "",
     company: "",
     projectType: "Website Development",
-    budgetRange: "Under 1000",
+    budgetRange: "0-25000",
     description: "",
   });
 
@@ -50,7 +50,7 @@ const StartProjectModal = ({ isOpen, onClose }) => {
     setStatusMessage("");
 
     try {
-      const response = await fetch("http://localhost:5000/api/inquiry", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/inquiry`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -66,7 +66,7 @@ const StartProjectModal = ({ isOpen, onClose }) => {
           phone: "",
           company: "",
           projectType: "Website Development",
-          budgetRange: "Under 1000",
+          budgetRange: "0-25000",
           description: "",
         });
       } else {

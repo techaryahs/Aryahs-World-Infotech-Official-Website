@@ -28,10 +28,12 @@ const app = express();
 // ---------------------------------------------------------
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
-    credentials: true,
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 
 app.use(express.json());
 app.use(compression());
@@ -49,7 +51,7 @@ app.use("/uploads", express.static("uploads"));
 const oauth2Client = new google.auth.OAuth2(
   process.env.CLIENT_ID,
   process.env.CLIENT_SECRET,
-  "http://localhost:5000/auth/google/callback"
+  "http://localhost:7000/auth/google/callback"
 );
 
 // ---------------------------------------------------------
@@ -195,5 +197,5 @@ app.use((req, res) => {
 // ---------------------------------------------------------
 // START SERVER
 // ---------------------------------------------------------
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT} 🚀`));
