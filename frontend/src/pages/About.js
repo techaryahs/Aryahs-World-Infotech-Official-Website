@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import aboutImg from "../assets/caro2.png";
 import robotGif from "../assets/robot.gif";
+import CEO from "../assets/ceo.jpg"
 
 export default function AboutV2() {
   const navigate = useNavigate();
@@ -181,6 +182,92 @@ export default function AboutV2() {
 
         </div>
       </section>
+
+      {/* ⭐ PREMIUM CEO SECTION ⭐ */}
+      <section className="relative max-w-6xl mx-auto px-6 md:px-12 py-16">
+
+        {/* Soft background glow */}
+        <div className="absolute -top-20 -left-20 w-96 h-96 bg-indigo-400/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl pointer-events-none" />
+
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative bg-gradient-to-br from-white/95 via-white/90 to-white/80
+               backdrop-blur-xl rounded-[2.5rem] p-8 md:p-14
+               shadow-[0_30px_80px_-20px_rgba(79,70,229,0.25)]
+               border border-white/60"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+            {/* CEO IMAGE */}
+            <motion.div
+              whileHover={{ y: -8 }}
+              transition={{ type: "spring", stiffness: 180 }}
+              className="flex justify-center relative"
+            >
+              {/* Image halo */}
+              <div
+                className="absolute w-80 h-80 md:w-[22rem] md:h-[22rem]
+                     rounded-full bg-gradient-to-tr from-indigo-400 to-purple-400
+                     blur-3xl opacity-30"
+              />
+
+              <img
+                src={CEO}
+                alt="Founder and Director"
+                className="relative
+                     w-60 h-60 md:w-72 md:h-72
+                     rounded-full
+                     object-contain
+                     bg-white
+                     p-2
+                     border-4 border-white
+                     shadow-[0_30px_60px_-15px_rgba(79,70,229,0.35)]"
+              />
+            </motion.div>
+
+            {/* CEO CONTENT */}
+            <div>
+              <span
+                className="inline-block mb-3 px-4 py-1 rounded-full text-xs font-semibold
+                     bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+              >
+                Leadership
+              </span>
+
+              <h3 className="text-3xl font-bold text-slate-800">
+                Founder & Director
+              </h3>
+
+              <h4
+                className="mt-1 text-xl font-semibold bg-clip-text text-transparent
+                     bg-gradient-to-r from-indigo-600 to-purple-600"
+              >
+                Ahana Shaikh
+              </h4>
+
+              <p className="mt-5 text-slate-600 leading-relaxed">
+                Ahana Shaikh is the Founder and Director of Aryahs World, a technology-driven company focused on building intelligent AI solutions that empower businesses and communities worldwide.
+              </p>
+
+              <p className="mt-4 text-slate-600 leading-relaxed">
+                With a strong foundation in engineering, Ahana has been pursuing the Bachelor of Technology (B.Tech) in CSE AIML degree from D.Y. Patil University. She brings a forward-thinking approach to innovation, combining technical expertise with strategic leadership to design scalable, real-world AI systems. She has also received the Youngest Entrepreneur Award at the ALFA Awards, presented by the Hon’ble Chief Minister of Maharashtra.
+              </p>
+
+              <p className="mt-4 text-slate-600 leading-relaxed">
+                As a technology leader, Ahana actively drives initiatives in Generative AI, Agentic AI, Large Language Model (LLM)–driven automation, and enterprise-grade AI solutions, with a vision to make advanced technology accessible, impactful, and ethically driven. Her leadership emphasizes innovation, execution excellence, and long-term value creation.
+              </p>
+            </div>
+
+          </div>
+        </motion.div>
+      </section>
+
+
+
+
 
       {/* TIMELINE */}
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-12">
